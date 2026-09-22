@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Chakra Petch", "PingFang SC", sans-serif;
+  --font-hud: "Share Tech Mono", "Chakra Petch", ui-monospace, monospace;
+  --color-neon-cyan: #00e5ff;
+  --color-neon-magenta: #ff2df7;
+  --color-neon-yellow: #f8e71c;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  background: #03040a;
+  overflow: hidden;
+  overscroll-behavior: none; /* 移动端防橡皮筋滚动 */
+}
+
+/* 霓虹灯管闪烁（低频、克制） */
+@keyframes neon-flicker {
+  0%,
+  91%,
+  100% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 0.35;
+  }
+  93% {
+    opacity: 1;
+  }
+  96% {
+    opacity: 0.65;
+  }
+  97% {
+    opacity: 1;
+  }
+}
+.animate-neon-flicker {
+  animation: neon-flicker 4.2s infinite;
+}
+
+/* 操作提示呼吸 */
+@keyframes blink-soft {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.animate-blink-soft {
+  animation: blink-soft 1.6s ease-in-out infinite;
+}
+
+/* 拾取横幅：挡板上方从下弹入定格淡出（1.1s，与 Banner.tsx 的 setTimeout 同步） */
+@keyframes banner-in {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 10px) scale(0.92);
+  }
+  18% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+  78% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -6px);
+  }
+}
+.animate-banner-in {
+  animation: banner-in 1.1s ease-out forwards;
+}
+
+/* 渐变砖图例示意：色带自左向右流动（与 Pixi 层 FLOW 砖同向） */
+@keyframes flow-demo {
+  0% {
+    background-position: 0% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+.animate-flow-demo {
+  animation: flow-demo 2.4s linear infinite;
+  background-size: 200% 100%;
+}
+
+/* 界面轮替淡入（开屏 ⇄ 设置面板） */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.animate-fade-in {
+  animation: fade-in 0.18s ease-out both;
+}
+
+/* 常驻可见滚动条：macOS 默认 overlay 滚动条平时隐藏，用户看不出可滚动；
+   显式样式化 ::-webkit-scrollbar 会强制经典渲染 → 滚动条常驻，一眼可知内容可滚 */
+/* 注意：Chrome 一旦设置 scrollbar-width，就会改用 overlay 滚动条（平时自动隐藏），
+   与「滚动条常驻」的目标相反 → 故只在支持 ::-webkit-scrollbar 之外的引擎（Firefox）用标准属性 */
+@supports not selector(::-webkit-scrollbar) {
+  .nb-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 229, 255, 0.5) rgba(255, 255, 255, 0.06);
+  }
+}
+.nb-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.nb-scroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 3px;
+}
+.nb-scroll::-webkit-scrollbar-thumb {
+  background: rgba(0, 229, 255, 0.55);
+  border-radius: 3px;
+}
+.nb-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 229, 255, 0.85);
+}
